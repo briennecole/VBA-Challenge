@@ -9,9 +9,10 @@ Dim start As Double
 Dim closer As Double
 Dim price_change As Double
 Dim percent_change As Double
-
-  ' Set an initial variable for holding the total volume per ticker
-  Dim Volume_Total As Double
+Dim yearly_change As Range
+Dim Volume_Total As Double
+  
+'Set initial volume
   Volume_Total = 0
 
 ' ' Keep track of the location for each ticker in the summary table
@@ -19,6 +20,10 @@ Dim percent_change As Double
   Summary_Table_Row = 2
 
 start = Cells(2, 3).Value
+Cells(1, 9) = "Ticker"
+Cells(1, 10) = "Yearly Change"
+Cells(1, 11) = "Percent Change"
+Cells(1, 12) = "Total Stock Volume"
 
  'For Loop to iterate through whole sheet - Define rowcount
  rowcount = Cells(Rows.Count, 1).End(xlUp).Row
@@ -60,9 +65,17 @@ ElseIf Cells(i, 1).Value <> Cells(i + 1, 1).Value Then
     
       ' Print the Price Change in the Summary Table
       Range("J" & Summary_Table_Row).Value = price_change
+      Set yearly_change = Range("J" & Summary_Table_Row)
+      yearly_change.FormatConditions.Add Type:=xlCellValue, Operator:=xlLess, _
+        Formula1:="=0"
+      yearly_change.FormatConditions(1).Interior.Color = vbRed
+      yearly_change.FormatConditions.Add Type:=xlCellValue, Operator:=xlGreater, _
+        Formula1:="=0"
+      yearly_change.FormatConditions(2).Interior.Color = vbGreen
     
       ' Print the Percent Change in the Summary Table
       Range("K" & Summary_Table_Row).Value = percent_change
+      Range("K" & Summary_Table_Row).NumberFormat = "0.00%"
       
     ' Print the Total Volume in the Summary Table
       Range("L" & Summary_Table_Row).Value = Volume_Total
