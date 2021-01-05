@@ -4,7 +4,7 @@ Sub stock_data():
 
   ' Set variables
 Dim Ticker As String
-Dim rowcount As LongLong
+Dim rowcount As Variant
 Dim start As Double
 Dim closer As Double
 Dim price_change As Double
@@ -34,8 +34,6 @@ If Cells(i, 1).Value = Cells(i + 1, 1).Value Then
       
     ' Add and store Volume Total
       Volume_Total = Volume_Total + Cells(i, 7).Value
-      
-    'Store open value from day 1 as start
 
 'When we reach a change in ticker
 ElseIf Cells(i, 1).Value <> Cells(i + 1, 1).Value Then
@@ -49,13 +47,13 @@ ElseIf Cells(i, 1).Value <> Cells(i + 1, 1).Value Then
     
     'Do calc for open-close
     price_change = closer - start
-    percent_change = (closer - start) / start
     start = Cells(i + 1, 3).Value
     
- 
-    'Do volume calc
-   
-    'Output data to table
+    If start = 0 Then
+    perchent_change = 0
+    ElseIf percent_change = (closer - start) / start Then
+    
+    End If
     
     ' Add and store Volume Total
       Volume_Total = Volume_Total + Cells(i, 7).Value
